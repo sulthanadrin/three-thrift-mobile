@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:threethrift/menu.dart';
+import 'package:threethrift/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
