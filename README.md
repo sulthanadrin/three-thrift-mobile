@@ -69,7 +69,7 @@ Menggunakan widget stateless untuk menampilkan data tetap (seperti NPM, nama, da
 
         - Optimasi Kinerja, Flutter sangat bergantung pada pohon widget untuk mewakili UI. Ketika widget yang ditandai dengan const ditemui selama rebuild, Flutter mengenali widget tersebut sebagai objek yang telah dibangun dan tidak dapat diubah. Ini memungkinkan Flutter untuk menggunakan kembali objek yang ada, menghindari perhitungan dan alokasi objek yang tidak perlu, yang mengarah pada kinerja yang lebih lancar. Kata kunci const memberi instruksi kepada Dart VM untuk melakukan optimasi pada waktu kompilasi, termasuk alokasi memori sebelumnya dan penyederhanaan ekspresi (evaluasi ekspresi saat kompilasi), yang mempercepat pembuatan objek dan mengurangi pengumpulan sampah selama runtime.
 
-        - Keterbacaan dan Pemeliharaan, Menggunakan const dengan konstruktor konstan secara jelas mengkomunikasikan niat untuk membuat objek yang tidak dapat diubah. Ini membuat kode lebih mudah dipahami oleh Anda dan pengembang lainnya. Karena objek tidak dapat diubah setelah dibuat, ini menyederhanakan pemahaman aliran data di aplikasi, mengurangi risiko perilaku yang tidak terduga, dan mempermudah debugging.
+        - Keterbacaan dan Pemeliharaan, Menggunakan const dengan konstruktor konstan secara jelas mengkomunikasikan niat untuk membuat objek yang tidak dapat diubah. Ini membuat kode lebih mudah dipahami oleh Kita dan pengembang lainnya. Karena objek tidak dapat diubah setelah dibuat, ini menyederhanakan pemahaman aliran data di aplikasi, mengurangi risiko perilaku yang tidak terduga, dan mempermudah debugging.
 
         - Manajemen Pohon Widget yang Efisien, Prinsip utama Flutter adalah meminimalkan jumlah rebuild yang diperlukan untuk memperbarui UI. Widget yang ditandai dengan const berkontribusi pada prinsip ini dengan memastikan mereka hanya dibangun ulang jika referensinya benar-benar berubah. Ini mengurangi pembuatan dan rebuild widget yang tidak perlu, sehingga UI menjadi lebih responsif dan efisien.
 
@@ -120,5 +120,94 @@ Menggunakan widget stateless untuk menampilkan data tetap (seperti NPM, nama, da
 | *Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?* |
 
     * Untuk menangani navigasi dalam aplikasi dengan banyak halaman di Flutter, Kita dapat menggunakan Navigator dan routes untuk berpindah antar halaman. Pada kode yang diberikan, Kita bisa menambahkan navigasi dengan menggunakan Navigator.push() untuk membuka halaman baru dan Navigator.pop() untuk kembali ke halaman sebelumnya. Misalnya, ketika pengguna memilih opsi seperti "Lihat Daftar Produk" atau "Tambah Produk" pada GridView, Kita dapat menambahkan aksi pada item untuk melakukan navigasi ke halaman baru menggunakan Navigator.push() dengan rute yang sesuai, atau mengatur rute menggunakan MaterialPageRoute untuk menentukan halaman yang akan dituju. Kita juga bisa mendefinisikan routes di dalam MaterialApp untuk mengatur halaman-halaman yang dapat diakses secara lebih terstruktur.
+
+</details>
+
+
+<details>
+<summary>--TUGAS 9--</summary>
+
+*Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?*
+-> Model diperlukan untuk memastikan data JSON yang dikirim atau diterima memiliki struktur yang konsisten dengan aplikasi. Dengan model, kita dapat mendefinisikan atribut seperti `name`, `price`, dan `description`, serta memastikan tipe data yang benar. Ini membantu mencegah kesalahan akibat field yang hilang, tambahan, atau tidak sesuai dengan format yang diharapkan.
+
+Tanpa model, data JSON harus diproses secara manual setiap kali digunakan, yang meningkatkan risiko kesalahan seperti `KeyError` atau `TypeError`. Selain itu, perubahan struktur data dapat memengaruhi banyak bagian dalam kode, sehingga sulit dipelihara. Model membantu membuat proses parsing dan manipulasi data lebih efisien, terorganisir, dan terhindar dari bug.
+
+*Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini*
+-> Library `http` digunakan untuk melakukan komunikasi antara aplikasi Flutter dan server backend melalui protokol HTTP. Dalam tugas ini, library ini memungkinkan aplikasi mengirimkan permintaan (request) seperti `POST` atau `GET` ke server, misalnya untuk mengirim data produk ke API Django atau mengambil data JSON dari server. Fungsi ini mempermudah integrasi antara frontend dan backend.
+
+Dengan `http`, kita dapat mengelola respons dari server secara efisien, seperti parsing data JSON yang diterima menjadi objek di Flutter. Library ini juga mendukung penanganan status HTTP, sehingga kita dapat menangani respons sukses atau error (seperti 200 atau 404) untuk memberikan umpan balik kepada pengguna secara tepat. Hal ini membuat pengelolaan data antara aplikasi dan server menjadi lebih terstruktur dan terkontrol.
+
+*Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.*
+-> `CookieRequest` berfungsi untuk menangani autentikasi berbasis sesi di aplikasi Flutter dengan menyimpan dan mengelola cookie secara otomatis. Library ini memungkinkan aplikasi untuk mempertahankan status login pengguna, sehingga permintaan HTTP ke server dapat menyertakan cookie otentikasi secara otomatis. Dengan `CookieRequest`, aplikasi dapat mengakses endpoint yang membutuhkan autentikasi tanpa harus mengelola token atau informasi login secara manual.
+
+Instance `CookieRequest` perlu dibagikan ke semua komponen di aplikasi Flutter agar setiap bagian aplikasi yang membutuhkan komunikasi dengan server dapat menggunakan cookie yang sama. Ini memastikan bahwa status login pengguna tetap konsisten di seluruh aplikasi, dan komponen seperti formulir, halaman produk, atau daftar data dapat bekerja dengan sesi yang sama. Pendekatan ini mempermudah pengelolaan autentikasi dan memastikan pengalaman pengguna yang mulus tanpa perlu login berulang kali.
+
+*Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.*
+-> 
+Mekanisme pengiriman data dimulai dari pengguna yang mengisi formulir di aplikasi Flutter. Setelah semua input valid, data dari formulir dikonversi menjadi format JSON menggunakan fungsi seperti `jsonEncode`. Kemudian, data JSON ini dikirim ke server backend melalui permintaan HTTP (misalnya `POST`) menggunakan library seperti `http` atau `CookieRequest`. Server backend, seperti Django, menerima permintaan tersebut, memproses data JSON, dan menyimpannya ke dalam database menggunakan model yang telah ditentukan.
+
+Setelah data berhasil disimpan, server dapat mengirimkan kembali data tersebut dalam format JSON melalui endpoint API. Aplikasi Flutter kemudian mengirimkan permintaan `GET` ke endpoint tersebut untuk mengambil data. Respons JSON dari server diparsing menjadi objek Dart menggunakan model, seperti kelas `Product`. Objek ini kemudian ditampilkan di aplikasi Flutter menggunakan widget seperti `ListView` atau `Card`, sehingga data yang telah dikirim pengguna dapat terlihat kembali di antarmuka aplikasi. Mekanisme ini memastikan integrasi yang mulus antara input pengguna, penyimpanan backend, dan tampilan di frontend.
+
+*Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.*
+-> Mekanisme autentikasi dimulai ketika pengguna memasukkan data akun mereka (username dan password) di Flutter pada formulir login atau register. Untuk login, aplikasi Flutter mengirimkan data tersebut ke endpoint Django melalui permintaan `POST` menggunakan `CookieRequest`. Django memverifikasi kredensial yang diterima dengan mencocokkannya di database pengguna. Jika valid, Django mengirimkan cookie otentikasi dalam responsnya, yang secara otomatis disimpan oleh `CookieRequest` di Flutter. Cookie ini digunakan untuk menjaga sesi pengguna, sehingga pengguna tetap dianggap login pada permintaan berikutnya tanpa perlu memasukkan ulang kredensial.
+
+Pada proses register, data yang dimasukkan pengguna dikirim ke endpoint Django untuk dibuatkan akun baru. Django memvalidasi data (misalnya, kesesuaian password dan keunikan username), lalu menyimpan akun ke database. Setelah register berhasil, pengguna diarahkan ke halaman login untuk autentikasi lebih lanjut. Untuk logout, Flutter mengirimkan permintaan ke endpoint logout di Django, yang akan menghapus cookie otentikasi dari sisi server dan mengakhiri sesi pengguna. Setelah logout, pengguna diarahkan kembali ke halaman login, memastikan bahwa sesi telah diakhiri dengan aman. Menu atau halaman utama hanya ditampilkan jika pengguna memiliki sesi aktif, yang diverifikasi dengan cookie pada setiap permintaan.
+
+*Implementasi Checklist*
+
+-Mengimplementasikan fitur registrasi akun pada proyek tugas Flutter.
+
+    Fitur registrasi akun pada proyek Flutter dimulai dengan pembuatan halaman registrasi menggunakan widget seperti `TextFormField` untuk input data pengguna (misalnya username, password, dan konfirmasi password). Data ini kemudian divalidasi di sisi Flutter, seperti memastikan password tidak kosong dan cocok dengan konfirmasi password. Setelah input valid, data dikirim ke backend Django melalui permintaan `POST` menggunakan `CookieRequest` atau `http`. Data dikonversi menjadi format JSON menggunakan `jsonEncode` sebelum dikirim ke endpoint Django, yang menangani pembuatan akun baru.
+
+    Di sisi Django, data yang diterima diproses oleh endpoint khusus registrasi, misalnya dengan `UserCreationForm` untuk memvalidasi username dan password. Jika valid, akun disimpan ke database dan respons dengan status `success` dikirim ke Flutter. Jika terjadi error, seperti username sudah ada atau password tidak valid, Django mengirimkan respons dengan pesan error yang sesuai. Di Flutter, respons ini ditampilkan menggunakan `SnackBar` sebagai notifikasi kepada pengguna. Setelah registrasi berhasil, pengguna diarahkan ke halaman login untuk melanjutkan autentikasi. Mekanisme ini memastikan proses registrasi berjalan lancar dan aman antara frontend Flutter dan backend Django.  
+
+- Membuat halaman login pada proyek tugas Flutter.
+
+    Untuk membuat halaman login pada proyek Flutter, langkah pertama adalah membuat widget Stateful yang berisi form login. Gunakan widget seperti `TextFormField` untuk input username dan password, serta tambahkan validator untuk memastikan data yang diinput valid. Tambahkan tombol login (`ElevatedButton`) yang akan mengirim data ke backend Django saat ditekan. Data input dikirim menggunakan `CookieRequest` dalam format JSON ke endpoint Django yang menangani login, seperti `/auth/login/`. Setelah respons diterima, periksa apakah autentikasi berhasil (status `success`) atau gagal, dan tampilkan notifikasi kepada pengguna menggunakan `SnackBar`.
+
+    Di backend Django, data login yang diterima diproses untuk memverifikasi username dan password menggunakan fungsi seperti `authenticate` dan `login`. Jika valid, Django mengirimkan cookie autentikasi ke Flutter, yang secara otomatis disimpan oleh `CookieRequest` untuk menjaga sesi pengguna. Setelah berhasil login, pengguna diarahkan ke halaman utama aplikasi menggunakan `Navigator.pushReplacement`. Dengan cara ini, halaman login Flutter dapat berintegrasi dengan server Django untuk memverifikasi kredensial pengguna dan memberikan akses ke fitur aplikasi yang memerlukan autentikasi. Langkah ini memastikan pengalaman pengguna yang aman dan mulus.
+
+- Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter
+
+    Untuk mengintegrasikan sistem autentikasi Django dengan Flutter, langkah pertama adalah memastikan bahwa Django memiliki endpoint autentikasi yang mendukung login, logout, dan registrasi. Endpoint ini harus menerima data dalam format JSON, seperti username dan password, serta memprosesnya menggunakan fungsi bawaan Django seperti `authenticate` dan `login`. Setelah memverifikasi kredensial, Django mengirimkan cookie autentikasi dalam respons, yang akan digunakan untuk menjaga sesi pengguna. Selain itu, Django perlu menangani logout dengan menghapus cookie autentikasi saat permintaan logout diterima.
+
+    Di sisi Flutter, integrasi dilakukan menggunakan library seperti `CookieRequest`, yang memungkinkan pengelolaan cookie secara otomatis. Flutter mengirimkan data login atau registrasi ke Django menggunakan metode `POST` dan menerima respons yang berisi status autentikasi. Jika autentikasi berhasil, cookie disimpan secara otomatis untuk digunakan pada permintaan berikutnya, sehingga pengguna tetap login saat mengakses fitur lain di aplikasi. Proses ini memungkinkan Flutter untuk berkomunikasi dengan Django secara aman, memastikan bahwa hanya pengguna yang diautentikasi yang dapat mengakses data atau fitur tertentu. Integrasi ini memberikan pengalaman pengguna yang mulus dengan memanfaatkan mekanisme sesi berbasis cookie dari Django.
+
+-Membuat model kustom sesuai dengan proyek aplikasi Django.
+
+   Dalam proyek saya, saya membuat model kustom di Flutter untuk menangani data dari endpoint JSON Django. Saya menggunakan website QuickType untuk membantu proses ini. Pertama, saya menyalin URL endpoint JSON dari Django yang sudah saya deploy ke QuickType. QuickType kemudian secara otomatis menghasilkan model Dart berdasarkan struktur data JSON yang dikembalikan oleh endpoint tersebut. Model yang dihasilkan berisi kelas utama, seperti `Product`, dan metode utilitas seperti `fromJson` untuk parsing data dan `toJson` untuk serialisasi data kembali ke format JSON.
+
+    Setelah itu, saya menempatkan model Dart ini di dalam subdirektori `models` pada file bernama `product_entry.dart` di proyek Flutter saya. Model ini sangat mempermudah proses pengelolaan data, terutama saat mengambil data dari Django. Ketika saya menerima data dari endpoint Django, saya menggunakan metode `fromJson` untuk mengubah JSON menjadi objek Dart, sehingga data menjadi lebih terstruktur dan mudah diproses. Model ini juga memungkinkan saya mengirimkan data kembali ke server Django dalam format yang sesuai menggunakan metode `toJson`. Dengan pendekatan ini, saya memastikan integrasi antara Flutter dan Django berjalan dengan lancar, dan aplikasi saya menjadi lebih modular dan mudah dipelihara.
+
+- Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy.
+
+    Untuk membuat halaman daftar item yang menampilkan data dari endpoint JSON Django, langkah pertama adalah memastikan endpoint sudah tersedia dan dapat diakses. Endpoint ini mengembalikan data JSON dengan field seperti `name`, `price`, dan `description`. Di Flutter, gunakan widget seperti `FutureBuilder` untuk mengambil data dari endpoint menggunakan `http` atau `CookieRequest`. Data JSON yang diterima diparsing menjadi objek Dart, misalnya model `Item`, yang membantu mengelola dan menampilkan data dengan lebih terstruktur.
+
+    Setelah data diparsing, gunakan widget `ListView.builder` untuk menampilkan setiap item dari daftar dalam bentuk yang rapi. Pada setiap elemen daftar, tampilkan informasi seperti `name`, `price`, dan `description` menggunakan widget seperti `Text` di dalam widget `Card` atau `Container` untuk desain yang lebih menarik. Dengan cara ini, data dari endpoint JSON Django ditampilkan secara dinamis di Flutter, memastikan bahwa setiap perubahan data di backend dapat langsung terlihat di aplikasi tanpa harus memodifikasi kode Flutter. Langkah ini memungkinkan integrasi yang mulus antara Django dan Flutter untuk menampilkan data item kepada pengguna.
+
+- Membuat halaman detail untuk setiap item yang terdapat pada halaman daftar Item.
+
+    Untuk membuat halaman detail di Flutter, saya memanfaatkan navigasi antar halaman dengan mengirimkan data dari halaman daftar item ke halaman detail. Ketika pengguna memilih salah satu item dari daftar, saya menggunakan Navigator.push untuk mengarahkan ke halaman detail dengan menyertakan objek item yang dipilih sebagai argumen. Di halaman detail, saya mendefinisikan widget Stateful atau Stateless yang menerima parameter item dari konstruktor dan menampilkan informasi seperti name, price, dan description menggunakan widget seperti Text dan Column. Desain halaman detail dibuat lebih menarik dengan menambahkan elemen seperti gambar atau tombol aksi sesuai kebutuhan aplikasi.
+
+    Di halaman daftar item, saya membungkus setiap elemen daftar menggunakan widget GestureDetector atau InkWell untuk mendeteksi klik pengguna. Ketika elemen daftar diklik, data item dikirim ke halaman detail melalui parameter. Contohnya, Navigator.push akan memanggil halaman detail dengan data item yang dipilih, seperti ini:
+
+    
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => DetailPage(item: snapshot.data[index]),
+    ),
+    );
+    
+    Dengan cara ini, pengguna dapat melihat informasi lengkap dari item yang dipilih dengan pengalaman navigasi yang mulus. Pendekatan ini memastikan bahwa setiap detail item ditampilkan dengan tepat berdasarkan data dari halaman daftar item.
+
+- Melakukan filter pada halaman daftar item dengan hanya menampilkan item yang terasosiasi dengan pengguna yang login.
+
+    Untuk melakukan filter pada halaman daftar item agar hanya menampilkan item yang terasosiasi dengan pengguna yang login, pertama-tama saya memastikan endpoint JSON di Django hanya mengembalikan data milik pengguna yang sedang login. Di backend, saya memanfaatkan relasi ForeignKey antara model item dan model pengguna. Endpoint JSON di Django difilter menggunakan request.user, misalnya:
+
+    data = Product.objects.filter(user=request.user)
+    Endpoint ini memastikan bahwa data yang dikembalikan adalah data yang sesuai dengan pengguna yang login, sehingga tidak ada item dari pengguna lain yang ikut ditampilkan.
+
+    Di sisi Flutter, saat mengambil data dari endpoint JSON menggunakan CookieRequest, saya cukup memproses respons dari server tanpa perlu filter tambahan, karena filtering sudah dilakukan di Django. Data yang diterima kemudian diparsing menjadi objek Dart dan ditampilkan menggunakan widget seperti ListView.builder. Dengan cara ini, hanya item yang terasosiasi dengan pengguna yang login akan ditampilkan di halaman daftar. Proses ini memastikan integrasi yang aman antara backend dan frontend, serta memberikan pengalaman pengguna yang lebih personal dan relevan.
 
 </details>

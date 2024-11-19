@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threethrift/screens/list_productentry.dart';
 
 import 'package:threethrift/screens/menu.dart';
 import 'package:threethrift/screens/productentry_form.dart';
@@ -57,6 +58,17 @@ class LeftDrawer extends StatelessWidget {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductEntryFormPage()));
     },
   ),
+  ListTile(
+    leading: const Icon(Icons.add_reaction_rounded),
+    title: const Text('Daftar Produk'),
+    onTap: () {
+        // Route menu ke halaman mood
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProductPage()),
+        );
+    },
+),
         ],
       ),
     );
